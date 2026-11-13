@@ -2,7 +2,9 @@
 
 **I took Qwen2.5-Coder-1.5B from 54.6% to 62.4% execution accuracy on unseen database domains (n=500, p=0.0002) and from 60% to 70% on a real 11-table database (n=100), with a QLoRA run on a free Colab T4. The whole thing runs on a CPU.**
 
-[Dataset](https://huggingface.co/datasets/parthasaradhi789/text2sql-sqlite-clean) · [Model (GGUF)](https://huggingface.co/parthasaradhi789/text2sql-qwen2.5-coder-1.5b-GGUF) · [LoRA adapter](https://huggingface.co/parthasaradhi789/text2sql-qwen2.5-coder-1.5b-lora) · [Training notebook](notebooks/train_qlora_colab.ipynb) · [Full eval report](reports/eval_results.md) · [Data quality report](reports/data_quality.md)
+[Dataset](https://huggingface.co/datasets/parthasaradhi789/text2sql-sqlite-clean) · [Model (GGUF)](https://huggingface.co/parthasaradhi789/text2sql-qwen2.5-coder-1.5b-GGUF) · [LoRA adapter](https://huggingface.co/parthasaradhi789/text2sql-qwen2.5-coder-1.5b-lora) · [Training notebook](notebooks/train_qlora_colab.ipynb) ([Colab](https://colab.research.google.com/drive/1skDhiHRgV1AvgKs5en8I-eWeVeVtr4T3?usp=sharing)) · [Full eval report](reports/eval_results.md) · [Data quality report](reports/data_quality.md)
+
+This follows my earlier project, [nl2sql](https://github.com/wittyparth/nl2sql). Here I added what it was missing: a validated dataset, a fine-tuned model and a measured evaluation.
 
 This repo is the full loop, not just a training run:
 
