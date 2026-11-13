@@ -15,7 +15,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SPACE_NAME = "text2sql-specialist"
 # what the image needs, nothing else (no raw/interim data, notebooks, tests, runs)
-INCLUDE = ["pyproject.toml", "uv.lock", "src", "configs", "data/demo", "data/eval", "reports"]
+INCLUDE = [
+    "pyproject.toml",
+    "uv.lock",
+    "src",
+    "configs",
+    "data/demo",
+    "data/eval",
+    "reports",
+    "docs",
+]
 
 HEADER = """---
 title: Text-to-SQL Specialist

@@ -105,7 +105,7 @@ QLoRA with Unsloth and TRL on a free Colab T4. The notebook that ran is committe
 | Optimizer | AdamW 8-bit, LR 2e-4, cosine schedule, 3% warmup, fp16 (the T4 has no bf16) |
 | Loss | **on the SQL answer only** (`train_on_responses_only`). The notebook asserts the mask: the decoded labels are the SQL plus `<|im_end|>`, nothing of the schema or question. |
 | Eval loss | 0.196 → 0.182 → 0.174 → 0.169 → **0.166** over steps 100–500. It fell at every checkpoint, so no overfitting in one epoch. |
-| Cost | $0 (free tier). W&B run: WANDB_URL. Wall-clock: TRAIN_TIME. |
+| Cost | $0 (Colab free tier, one T4). Loss curves and timings are in the notebook's outputs. |
 | Output | LoRA adapter, merged model exported to GGUF (F16, Q8_0, Q4_K_M) and pushed to the Hub |
 
 ## Evaluation method
