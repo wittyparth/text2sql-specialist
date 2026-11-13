@@ -5,10 +5,4 @@
 - When you choose an example question, the app also runs the reference SQL and compares *results*, the same rule the evaluation uses.
 - Everything runs on CPU; no GPU is involved.
 
-## Run it yourself
-```
-docker compose up        # anywhere Docker runs
-./run.sh                 # picks Ollama, llama.cpp or Docker for you
-```
-
 First answers after a cold start are slower while the prompt cache fills.
