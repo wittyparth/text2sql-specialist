@@ -18,10 +18,18 @@ class Completion:
 
 
 class ChatClient:
-    def __init__(self, url: str, model: str, api_key: str | None = None, timeout_s: float = 120):
+    def __init__(
+        self,
+        url: str,
+        model: str,
+        api_key: str | None = None,
+        timeout_s: float = 120,
+        backoff: tuple[float, ...] = BACKOFF_S,
+    ):
         headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
         self.http = httpx.Client(base_url=url.rstrip("/"), headers=headers, timeout=timeout_s)
         self.model = model
+        self.backoff = backoff
 
     def complete(
         self,
@@ -41,7 +49,7 @@ class ChatClient:
         if seed is not None:
             body["seed"] = seed
         last = ""
-        for attempt, delay in enumerate(BACKOFF_S, start=1):
+        for attempt, delay in enumerate(self.backoff, start=1):
             started = time.monotonic()
             try:
                 resp = self.http.post("/chat/completions", json=body)
@@ -56,7 +64,7 @@ class ChatClient:
                 )
             except (httpx.HTTPError, KeyError, IndexError, ValueError) as exc:
                 last = f"{type(exc).__name__}: {exc}"
-                if attempt < len(BACKOFF_S):
+                if attempt < len(self.backoff):
                     sleep(delay)
         return Completion(error=last)
 

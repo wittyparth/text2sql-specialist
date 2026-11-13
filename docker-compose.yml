@@ -1,0 +1,55 @@
+# docker compose up  ->  http://localhost:7860   (CPU only, no keys needed)
+x-llm: &llm
+  image: ghcr.io/ggml-org/llama.cpp:server@sha256:2103d1f4f2e2e223ad80587dcb39fc15a9f912f29ae1fa9fc1193fe8c1aea82f
+  volumes: ["llm-cache:/root/.cache"]   # models are downloaded once and survive restarts
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+    interval: 10s
+    retries: 60
+    start_period: 20s
+  restart: unless-stopped
+
+services:
+  llm-base:
+    <<: *llm
+    # context rule: -c must be >= parallel slots x (longest prompt + max_tokens)
+    command: ["-hf", "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF:Q4_K_M", "-c", "8192", "-np", "4",
+              "-t", "${LLM_THREADS:-4}", "--alias", "base"]
+  llm-ft:
+    <<: *llm
+    command: ["-hf", "${HF_USER:-parthasaradhi789}/text2sql-qwen2.5-coder-1.5b-GGUF:Q4_K_M",
+              "-c", "8192", "-np", "4", "-t", "${LLM_THREADS:-4}", "--alias", "finetuned"]
+
+  app:
+    build: {context: ., dockerfile: docker/app.Dockerfile}
+    ports: ["7860:7860"]
+    environment:
+      LLM_BASE_URL: http://llm-base:8080/v1
+      LLM_FT_URL: http://llm-ft:8080/v1
+    depends_on:
+      llm-base: {condition: service_healthy}
+      llm-ft: {condition: service_healthy}
+
+  # `./run.sh` uses this when the models run natively on the host (Ollama / llama.cpp)
+  app-only:
+    profiles: [app-only]
+    build: {context: ., dockerfile: docker/app.Dockerfile}
+    ports: ["7860:7860"]
+    environment:
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      LLM_FT_URL: ${LLM_FT_URL:-http://host.docker.internal:11434/v1}
+      LLM_BASE_MODEL: ${LLM_BASE_MODEL:-t2s-base}
+      LLM_FT_MODEL: ${LLM_FT_MODEL:-t2s-ft}
+    extra_hosts: ["host.docker.internal:host-gateway"]
+
+  etl:    # docker compose --profile etl run --rm etl
+    profiles: [etl]
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+      args: {UV_GROUPS: "--group etl --group eval"}
+    command: ["python", "-m", "text2sql.etl.pipeline", "run"]
+    volumes: ["./data:/app/data", "./reports:/app/reports"]
+
+volumes:
+  llm-cache: {}

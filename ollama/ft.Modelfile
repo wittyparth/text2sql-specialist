@@ -1,0 +1,4 @@
+# run.sh replaces __HF_USER__ before calling `ollama create`
+FROM hf.co/__HF_USER__/text2sql-qwen2.5-coder-1.5b-GGUF:Q4_K_M
+PARAMETER num_ctx 8192
+PARAMETER temperature 0

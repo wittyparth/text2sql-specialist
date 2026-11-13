@@ -58,7 +58,7 @@ Notes:
 - `uv sync --frozen --no-dev --group etl --group eval --group app`. Copy `uv.lock` and `pyproject.toml` first so the dependency layer gets cached.
 - Copy `src/`, `configs/` and `data/demo/` and `data/eval/` (both small and committed).
 - Run as a non-root user, `EXPOSE 7860`, `CMD ["python", "-m", "text2sql.app.main"]`.
-- Target image size: under 400 MB.
+- Measured image size: about 750 MB (Gradio, pandas and numpy dominate). Use `--no-cache` on `uv sync` or the uv download cache doubles it.
 
 ## `docker/space.Dockerfile` (HF Space, single container, spec)
 HF Docker Spaces run **one** container, listen on **port 7860** and run as **uid 1000**.

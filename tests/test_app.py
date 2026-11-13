@@ -120,3 +120,15 @@ def test_ui_builds(chinook_path):
         WarmupState(),
     )
     assert demo is not None
+
+
+def test_dead_backend_fails_fast_when_configured_to():
+    import time
+
+    client = ChatClient("http://x/v1", "m", backoff=(0, 0))
+    client.http = httpx.Client(
+        base_url="http://x/v1", transport=httpx.MockTransport(lambda r: httpx.Response(500))
+    )
+    started = time.monotonic()
+    assert client.complete([]).error
+    assert time.monotonic() - started < 1

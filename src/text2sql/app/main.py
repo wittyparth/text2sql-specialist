@@ -16,7 +16,11 @@ from .warmup import WarmupState, start_in_background
 ROOT = Path(__file__).resolve().parents[3]
 CUSTOM = "custom"
 MAX_QUESTION = 500
+FAST_FAIL = (0.5, 0.5)  # a person is waiting; the eval harness uses the patient default
 log = logging.getLogger("app")
+# what the outputs after the message box show when there is nothing to show:
+# base text, base table, tuned text, tuned table, reference box
+NO_RESULT = ("", [], "", [], gr.update(visible=False))
 
 
 @dataclass
@@ -108,11 +112,10 @@ def build_ui(s: Settings, presets: dict[str, Preset], backends: list[Backend], w
 
     def run(key: str, question: str, ddl: str):
         question = (question or "").strip()
-        empty = ("", [], "", [], "", gr.update(visible=False))
         if not question:
-            return ("Type a question first.", *empty[1:])
+            return ("Type a question first.", *NO_RESULT)
         if len(question) > MAX_QUESTION:
-            return (f"Questions are limited to {MAX_QUESTION} characters.", *empty[1:])
+            return (f"Questions are limited to {MAX_QUESTION} characters.", *NO_RESULT)
         reference = ordered = None
         try:
             if key == CUSTOM:
@@ -127,7 +130,7 @@ def build_ui(s: Settings, presets: dict[str, Preset], backends: list[Backend], w
             )
             conn.close()
         except CustomSchemaError as exc:
-            return (f"⚠️ {exc}", *empty[1:])
+            return (f"⚠️ {exc}", *NO_RESULT)
         base, ft = outs
         ref_box = gr.update(
             visible=bool(reference), value=f"```sql\n{reference}\n```" if reference else ""
@@ -222,8 +225,12 @@ def main() -> None:
     s = Settings.from_env()
     presets = load_presets(ROOT / "data" / "demo")
     backends = [
-        Backend("base", ChatClient(s.base_url, s.base_model, timeout_s=s.timeout_s)),
-        Backend("finetuned", ChatClient(s.ft_url, s.ft_model, timeout_s=s.timeout_s)),
+        Backend(
+            "base", ChatClient(s.base_url, s.base_model, timeout_s=s.timeout_s, backoff=FAST_FAIL)
+        ),
+        Backend(
+            "finetuned", ChatClient(s.ft_url, s.ft_model, timeout_s=s.timeout_s, backoff=FAST_FAIL)
+        ),
     ]
     warm = WarmupState()
     start_in_background(backends, presets, warm)
