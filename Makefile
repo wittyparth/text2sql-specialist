@@ -1,4 +1,4 @@
-.PHONY: setup test lint pipeline pipeline-demo-incremental push-dataset eval app run up down
+.PHONY: eval eval-all report setup test lint pipeline pipeline-demo-incremental push-dataset eval app run up down
 
 setup:
 	uv sync --all-groups
@@ -20,6 +20,16 @@ pipeline-demo-incremental:
 
 push-dataset:
 	uv run python -m text2sql.etl.pipeline run --push
+
+# make eval MODEL=base-q4 SET=chinook  (a llama-server must already be running)
+eval:
+	uv run python -m text2sql.eval.run --model $(MODEL) --set $(SET)
+
+eval-all:
+	./scripts/eval_all.sh
+
+report:
+	uv run python -m text2sql.eval.compare
 
 app:
 	uv run python -m text2sql.app.main

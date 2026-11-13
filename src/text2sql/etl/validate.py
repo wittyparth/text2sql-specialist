@@ -5,7 +5,6 @@ can be fanned out over a process pool."""
 import logging
 import re
 import sqlite3
-import time
 from collections.abc import Iterable
 from functools import partial
 from multiprocessing import Pool
@@ -14,7 +13,7 @@ import sqlglot
 from sqlglot import exp
 from sqlglot.errors import ErrorLevel, SqlglotError
 
-from ..schema import canonicalize
+from ..schema import canonicalize, load_context
 from ..sqlexec import run_select
 from .records import Record, make_id
 
@@ -131,16 +130,10 @@ def transpile(text: str, dialect: str) -> str | None:
 
 
 def load_with_timeout(ctx: str, timeout_s: float) -> tuple[sqlite3.Connection | None, str]:
-    conn = sqlite3.connect(":memory:")
-    deadline = time.monotonic() + timeout_s
-    conn.set_progress_handler(lambda: 1 if time.monotonic() > deadline else 0, 10_000)
     try:
-        conn.executescript(ctx)
+        return load_context(ctx, timeout_s), ""
     except sqlite3.Error as exc:
-        conn.close()
         return None, str(exc)
-    conn.set_progress_handler(None, 0)
-    return conn, ""
 
 
 def _load_context(rec: Record, timeout_s: float):

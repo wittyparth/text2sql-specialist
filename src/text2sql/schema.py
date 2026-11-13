@@ -2,6 +2,7 @@
 
 import re
 import sqlite3
+import time
 
 _PLAIN_IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 _RESERVED = {
@@ -89,12 +90,16 @@ def canonicalize(conn: sqlite3.Connection, sample_rows: int = 2, max_value_chars
     return "\n".join(lines)
 
 
-def load_context(ddl: str) -> sqlite3.Connection:
+def load_context(ddl: str, timeout_s: float | None = None) -> sqlite3.Connection:
     """Build an in-memory database from CREATE TABLE / INSERT text. Raises sqlite3.Error."""
     conn = sqlite3.connect(":memory:")
+    if timeout_s:
+        deadline = time.monotonic() + timeout_s
+        conn.set_progress_handler(lambda: 1 if time.monotonic() > deadline else 0, 10_000)
     try:
         conn.executescript(ddl)
     except sqlite3.Error:
         conn.close()
         raise
+    conn.set_progress_handler(None, 0)
     return conn

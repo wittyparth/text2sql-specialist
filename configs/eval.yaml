@@ -1,0 +1,23 @@
+generation: {temperature: 0, max_tokens: 256, seed: 0}
+# One request at a time. With 4 parallel slots llama-server flipped 5/100 greedy outputs
+# (see plan/00-context/verified-facts.md), so runs with different concurrency don't compare.
+parallel: 1
+timeout_s: 120
+
+sets:
+  gretel_heldout:
+    path: data/eval/gretel_heldout_eval.jsonl
+    sha256: 5878abe8acfd7d646acd32d98cca3c69f4a7cdbd0d59348fba13afa0cda16065
+    db: per_item          # rebuilt from context_sqlite
+  chinook:
+    path: data/eval/chinook_eval.jsonl
+    sha256: f2bddf00b80971dfcdb0d9823fbedf9d17c8463bb25d2db79634cb2fefd6f64b
+    db: data/demo/chinook.sqlite
+
+models:
+  base-q4:  {url: "http://127.0.0.1:8081/v1", model: base, gguf: "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF:Q4_K_M"}
+  base-f16: {url: "http://127.0.0.1:8081/v1", model: base, gguf: "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF:F16"}
+  ft-q4:    {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:Q4_K_M"}
+  ft-q8:    {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:Q8_0"}
+  ft-f16:   {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:F16"}
+  frontier: {url: "https://openrouter.ai/api/v1", model: "anthropic/claude-sonnet-4.5", key_env: OPENROUTER_API_KEY, optional: true}
