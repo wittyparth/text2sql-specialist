@@ -1,4 +1,4 @@
-.PHONY: setup test lint pipeline push-dataset eval app run up down
+.PHONY: setup test lint pipeline pipeline-demo-incremental push-dataset eval app run up down
 
 setup:
 	uv sync --all-groups
@@ -10,6 +10,12 @@ test: lint
 	uv run pytest
 
 pipeline:
+	uv run python -m text2sql.etl.pipeline run
+
+# --limit then full: the second run should only touch the remaining rows
+pipeline-demo-incremental:
+	rm -rf data/interim data/state
+	uv run python -m text2sql.etl.pipeline run --limit 50000
 	uv run python -m text2sql.etl.pipeline run
 
 push-dataset:

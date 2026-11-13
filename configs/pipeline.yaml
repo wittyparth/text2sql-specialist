@@ -1,0 +1,70 @@
+seed: 42
+
+sources:
+  gretel:
+    kind: hf
+    repo: gretelai/synthetic_text_to_sql
+    revision: 740ab236e64503fba51be1101df7a1be83bf455d
+    files:
+      - synthetic_text_to_sql_train.snappy.parquet
+      - synthetic_text_to_sql_test.snappy.parquet
+  sqlcc:
+    kind: hf
+    repo: b-mc2/sql-create-context
+    revision: 9d80a6a118b838d9defc3798d659a54a2ac2ff37
+    files:
+      - sql_create_context_v4.json
+  chinook:
+    kind: url
+    revision: v1.4.5
+    url: https://github.com/lerocha/chinook-database/releases/download/v1.4.5/Chinook_Sqlite.sqlite
+    files: [Chinook_Sqlite.sqlite]
+    sha256: bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  state: data/state
+  eval: data/eval
+  reports: reports
+
+validate:
+  timeout_s: 2.0
+  max_rows: 1000
+  workers: 8
+
+filters:
+  question_min_chars: 10
+  question_max_chars: 500
+  sql_max_chars: 2000
+  token_budget: 1800
+  tokenizer: Qwen/Qwen2.5-Coder-1.5B-Instruct
+
+split:
+  test_domains: 10
+  val_domains: 5
+  eval_size: 500
+  eval_floor_per_class: 25
+  val_size: 300
+
+sample:
+  gretel: 8000
+  sqlcc: 1500
+  basic_cap: 0.30
+  # target share of the Gretel quota per derived complexity class; shortfalls are redistributed
+  class_weights:
+    basic: 0.20
+    aggregation: 0.20
+    single_join: 0.17
+    multi_join: 0.15
+    subquery: 0.12
+    window: 0.10
+    set_op: 0.06
+    cte: 0.00
+
+augment:
+  rate: 0.35
+  min_distractors: 3
+  max_distractors: 8
+  pool_records: 4000

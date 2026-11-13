@@ -1,0 +1,730 @@
+{
+  "header": {
+    "run_id": "0ae2cb88",
+    "generated_at": "2026-11-13T03:46:50+00:00",
+    "git_sha": "c6abd86",
+    "python": "3.12.13",
+    "sqlglot": "30.31.0",
+    "pyarrow": "26.0.1",
+    "config_sha": "3d9e9a417a04"
+  },
+  "revisions": {
+    "gretel": "740ab236e64503fba51be1101df7a1be83bf455d",
+    "sqlcc": "9d80a6a118b838d9defc3798d659a54a2ac2ff37",
+    "chinook": "v1.4.5"
+  },
+  "files": {
+    "gretel/740ab236e64503fba51be1101df7a1be83bf455d/synthetic_text_to_sql_train.snappy.parquet": {
+      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
+      "sha256": "2bee9ac07cf5057d36b5ea30fb47d948697e882f42bd1cc661185396287c0180",
+      "bytes": 32363736,
+      "fetched_at": "2026-11-13T03:46:21+00:00"
+    },
+    "gretel/740ab236e64503fba51be1101df7a1be83bf455d/synthetic_text_to_sql_test.snappy.parquet": {
+      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
+      "sha256": "f2056edcd897db59c89d12bde149a36d4e242ac0d2c6d4d42b1f2bc764318993",
+      "bytes": 1901018,
+      "fetched_at": "2026-11-13T03:46:21+00:00"
+    },
+    "sqlcc/9d80a6a118b838d9defc3798d659a54a2ac2ff37/sql_create_context_v4.json": {
+      "revision": "9d80a6a118b838d9defc3798d659a54a2ac2ff37",
+      "sha256": "280961458ccb74731104ae9af715797a0332327a33a210120a6884085a5c03f0",
+      "bytes": 21752418,
+      "fetched_at": "2026-11-13T03:46:22+00:00"
+    },
+    "chinook/v1.4.5/Chinook_Sqlite.sqlite": {
+      "revision": "v1.4.5",
+      "sha256": "bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a",
+      "bytes": 1067008,
+      "fetched_at": "2026-11-13T03:46:23+00:00"
+    }
+  },
+  "funnel": {
+    "gretel": {
+      "extracted": 105851,
+      "mapped": 105851,
+      "in scope (SELECT)": 94728,
+      "context loaded": 92852,
+      "executes (raw)": 72090,
+      "executes (repaired)": 5961,
+      "passes filters": 77710,
+      "after dedup": 77710,
+      "after leakage guard": 77668,
+      "split: train": 66929,
+      "split: val": 3757,
+      "split: test_heldout": 7024,
+      "sampled": 8000
+    },
+    "sqlcc": {
+      "extracted": 78577,
+      "mapped": 78577,
+      "in scope (SELECT)": 78577,
+      "context loaded": 78283,
+      "executes (raw)": 76910,
+      "executes (repaired)": 559,
+      "passes filters": 77469,
+      "after dedup": 77466,
+      "after leakage guard": 77466,
+      "split: train": 77466,
+      "split: val": 0,
+      "split: test_heldout": 0,
+      "sampled": 1500
+    }
+  },
+  "drop_reasons": [
+    {
+      "code": "NOT_SELECT",
+      "count": 10626,
+      "pct": 5.76,
+      "examples": [
+        {
+          "question": "Create a table for employee demographics",
+          "sql": "CREATE TABLE EmployeeDemographics (EmployeeID INT PRIMARY KEY, Age INT, Gender VARCHAR(10), Ethnicity VARCHAR(20), Department VARCHAR(20))",
+          "detail": null
+        },
+        {
+          "question": "Delete the record for the Downtown area from the InclusiveHousing table.",
+          "sql": "DELETE FROM InclusiveHousing WHERE area = 'Downtown'",
+          "detail": null
+        },
+        {
+          "question": "Update the \"country\" column of the \"military_exercises\" table to \"Canada\" for records where the \"exercise_year\" is 2018",
+          "sql": "UPDATE military_exercises SET country = 'Canada' WHERE exercise_year = 2018",
+          "detail": null
+        }
+      ]
+    },
+    {
+      "code": "SQL_NO_SUCH_COLUMN",
+      "count": 5253,
+      "pct": 2.85,
+      "examples": [
+        {
+          "question": "What is the average price of eco-friendly materials from Latin American suppliers in 2020?",
+          "sql": "SELECT AVG(price) as avg_price FROM materials WHERE type = 'Eco-friendly' AND origin LIKE 'Latin%' AND YEAR(dates.date) = 2020",
+          "detail": "no such column: dates.date"
+        },
+        {
+          "question": "What is the average mass of all space probes launched by NASA?",
+          "sql": "SELECT AVG(mass) FROM space_probes WHERE country = 'USA' AND type = 'Space Probe'",
+          "detail": "no such column: type"
+        },
+        {
+          "question": "How many new garment types have been introduced in the African market in the last 6 months?",
+          "sql": "SELECT COUNT(*) as num_new_garment_types FROM garment_releases WHERE region = 'Africa' AND release_date >= DATEADD(month, -6, CURRENT_TIMESTAMP)",
+          "detail": "no such column: month"
+        }
+      ]
+    },
+    {
+      "code": "SQL_SYNTAX",
+      "count": 4148,
+      "pct": 2.25,
+      "examples": [
+        {
+          "question": "What is the average number of hotels that adopt hospitality AI per month in Canada?",
+          "sql": "SELECT AVG(EXTRACT(MONTH FROM signup_date)) FROM hotels WHERE country = 'Canada' AND ai_adoption = true GROUP BY EXTRACT(MONTH FROM signup_date)",
+          "detail": "near \"FROM\": syntax error"
+        },
+        {
+          "question": "What is the total value of trades executed by the trading desk in London?",
+          "sql": "SELECT SUM(value * currency_rate) FROM trades t JOIN currency_rates cr ON t.currency = cr.currency WHERE t.desk = 'London' AND t.trade_date >= CURRENT_DATE - INTERVAL '1 month'",
+          "detail": "near \"'1 month'\": syntax error"
+        },
+        {
+          "question": "How many refugees were supported by each organization by age group and gender in Q1 2021?",
+          "sql": "SELECT organization_id, gender, age_group, COUNT(*) as supported_refugees FROM (SELECT organization_id, gender, CASE WHEN age <= 17 THEN 'Minor' WHEN age BETWEEN 18 AND 64 THEN 'Adult' ELSE 'Senior' E",
+          "detail": "near \"FROM\": syntax error"
+        }
+      ]
+    },
+    {
+      "code": "SQL_NO_SUCH_TABLE",
+      "count": 3731,
+      "pct": 2.02,
+      "examples": [
+        {
+          "question": "Identify the indigenous communities in the Arctic region with the highest and lowest average annual temperatures.",
+          "sql": "SELECT community_name, MAX(avg_temp) AS highest_avg_temp, MIN(avg_temp) AS lowest_avg_temp FROM community_temp_data WHERE community_name IN (SELECT community_name FROM communities WHERE region LIKE '%",
+          "detail": "no such table: communities"
+        },
+        {
+          "question": "Show the total assets under management (AUM) for each investment strategy.",
+          "sql": "SELECT cs.strategy, SUM(value) AS total_aum FROM client_strategy cs JOIN clients c ON cs.client_id = c.client_id JOIN assets a ON c.client_id = a.client_id GROUP BY cs.strategy",
+          "detail": "no such table: clients"
+        },
+        {
+          "question": "What dispensaries are part of the social equity program 'Minority-owned' that was approved in 2020?",
+          "sql": "SELECT d.name, e.program FROM dispensary d INNER JOIN equity e ON d.id = e.dispensary_id WHERE e.program = 'Minority-owned' AND e.approved_date BETWEEN '2020-01-01' AND '2020-12-31'",
+          "detail": "no such table: dispensary"
+        }
+      ]
+    },
+    {
+      "code": "CTX_LOAD_FAILED",
+      "count": 2170,
+      "pct": 1.18,
+      "examples": [
+        {
+          "question": "List all healthcare providers with mental health coverage score greater than or equal to 0.9",
+          "sql": "SELECT * FROM healthcare.MentalHealthParity WHERE mental_health_coverage >= 0.9",
+          "detail": "unknown database healthcare"
+        },
+        {
+          "question": "How many settlements does each claim correspond to? List the claim id and the number of settlements.",
+          "sql": "SELECT T1.Claim_id, COUNT(*) FROM Claims AS T1 JOIN Settlements AS T2 ON T1.claim_id = T2.claim_id GROUP BY T1.claim_id",
+          "detail": "duplicate column name: claim_id"
+        },
+        {
+          "question": "How many traffic violation tickets were issued by police officers in the 'Metropolitan' region in the month of January?",
+          "sql": "SELECT COUNT(*) FROM Government.Violation WHERE officer_name IN (SELECT name FROM Government.Police WHERE region = 'Metropolitan') AND issue_date BETWEEN '2022-01-01' AND '2022-01-31'",
+          "detail": "unknown database Government"
+        }
+      ]
+    },
+    {
+      "code": "SQL_NO_SUCH_FUNCTION",
+      "count": 1212,
+      "pct": 0.66,
+      "examples": [
+        {
+          "question": "List the number of successful and failed satellite deployments by 'China' in the last 10 years?",
+          "sql": "SELECT country, year, SUM(CASE WHEN deployment_status = 'successful' THEN 1 ELSE 0 END) AS successful_deployments, SUM(CASE WHEN deployment_status = 'failed' THEN 1 ELSE 0 END) AS failed_deployments F",
+          "detail": "no such function: DATEADD"
+        },
+        {
+          "question": "How many public transportation trips were taken in each district for the last 3 months?",
+          "sql": "SELECT District, COUNT(*) as Trips, DATE_TRUNC('month', TripDate) as Month FROM Trips WHERE TripDate >= DATEADD(month, -3, CURRENT_DATE) GROUP BY District, Month",
+          "detail": "no such function: DATE_TRUNC"
+        },
+        {
+          "question": "What is the correlation between spacecraft manufacturing costs and spacecraft component quantities?",
+          "sql": "SELECT CORR(SpacecraftManufacturing.cost, SpacecraftComponents.quantity) FROM SpacecraftManufacturing INNER JOIN SpacecraftComponents ON SpacecraftManufacturing.id = SpacecraftComponents.id",
+          "detail": "no such function: CORR"
+        }
+      ]
+    },
+    {
+      "code": "SQL_AMBIGUOUS",
+      "count": 680,
+      "pct": 0.37,
+      "examples": [
+        {
+          "question": "What is the percentage of teachers who have completed professional development courses in each district, ordered by the percentage?",
+          "sql": "SELECT district_id, district_name, AVG(completed_pd_course) * 100.0 as pct_completed FROM districts JOIN teachers ON districts.district_id = teachers.district_id GROUP BY district_id, district_name OR",
+          "detail": "ambiguous column name: district_id"
+        },
+        {
+          "question": "What is the average sustainability score of factories in South Asia by country?",
+          "sql": "SELECT country, AVG(sustainability_score) FROM factories JOIN country_regions ON factories.country = country_regions.country WHERE region = 'South Asia' GROUP BY country",
+          "detail": "ambiguous column name: country"
+        },
+        {
+          "question": "What is the total number of songs for each artist?",
+          "sql": "SELECT ArtistName, COUNT(SongName) OVER (PARTITION BY ArtistID) AS SongCount FROM Artist JOIN Song ON Artist.ArtistID = Song.ArtistID",
+          "detail": "ambiguous column name: ArtistID"
+        }
+      ]
+    },
+    {
+      "code": "SQL_OTHER",
+      "count": 591,
+      "pct": 0.32,
+      "examples": [
+        {
+          "question": "What is the average temperature per day for each sensor in the 'sensor_data' table?",
+          "sql": "SELECT sensor_id, TRUNC(reading_time, 'DD') reading_day, AVG(temperature) OVER (PARTITION BY sensor_id, TRUNC(reading_time, 'DD')) FROM sensor_data",
+          "detail": "wrong number of arguments to function TRUNC()"
+        },
+        {
+          "question": "Identify the top 3 crops with the highest yield in 2022.",
+          "sql": "SELECT CropName, ROW_NUMBER() OVER (ORDER BY Yield DESC) as Rank FROM Crop WHERE Year = 2022 HAVING Rank <= 3",
+          "detail": "HAVING clause on a non-aggregate query"
+        },
+        {
+          "question": "Identify the top 3 districts with the highest crime rate in New York City.",
+          "sql": "SELECT district_name, total_crimes, RANK() OVER (ORDER BY total_crimes DESC) district_rank FROM nyc_districts WHERE district_rank <= 3",
+          "detail": "misuse of aliased window function district_rank"
+        }
+      ]
+    },
+    {
+      "code": "MULTI_STATEMENT",
+      "count": 497,
+      "pct": 0.27,
+      "examples": [
+        {
+          "question": "List the programs that had the highest and lowest impact in terms of funds raised in 2020?",
+          "sql": "SELECT program_name, funds_raised FROM programs WHERE program_start_date <= '2020-12-31' AND program_start_date >= '2020-01-01' ORDER BY funds_raised DESC LIMIT 1; SELECT program_name, funds_raised FR",
+          "detail": null
+        },
+        {
+          "question": "Insert new music festival data and calculate the total revenue for each festival.",
+          "sql": "INSERT INTO festivals (festival_id, festival_name, city, revenue) VALUES (3, 'Glastonbury', 'Pilton', 300000.00), (4, 'Summerfest', 'Milwaukee', 125000.00); SELECT festival_name, SUM(revenue) AS total",
+          "detail": null
+        },
+        {
+          "question": "What are the least popular vegetarian menu items in the Asia-Pacific region?",
+          "sql": "SELECT m.item, SUM(s.quantity) as total_sold FROM menus m INNER JOIN sales s ON m.menu_id = s.menu_id WHERE m.is_vegetarian = true GROUP BY m.item ORDER BY total_sold ASC; SELECT region FROM sales GRO",
+          "detail": null
+        }
+      ]
+    },
+    {
+      "code": "TIME_RELATIVE_HARDCODED",
+      "count": 341,
+      "pct": 0.18,
+      "examples": [
+        {
+          "question": "Identify the number of tunnels in the city of London that have been built in the last 5 years and their respective construction companies.",
+          "sql": "SELECT COUNT(*), construction_company FROM tunnel WHERE city = 'London' AND construction_date >= '2016-01-01' GROUP BY construction_company",
+          "detail": null
+        },
+        {
+          "question": "Count the number of visitors from historically underrepresented communities who engaged with museums in the last year.",
+          "sql": "SELECT COUNT(*) FROM Visitor_Engagement WHERE museum IN ('National Museum of African American History and Culture', 'American Indian Museum', 'National Museum of the American Latino') AND date >= '202",
+          "detail": null
+        },
+        {
+          "question": "Which artworks were added in the last week of 2021?",
+          "sql": "SELECT * FROM artworks WHERE added_date >= '2021-12-26' AND added_date <= '2021-12-31'",
+          "detail": null
+        }
+      ]
+    },
+    {
+      "code": "LEAKAGE_OVERLAP",
+      "count": 42,
+      "pct": 0.02,
+      "examples": [
+        {
+          "question": "What is the total number of volunteers in each program?",
+          "sql": "SELECT program, COUNT(*) FROM Volunteers GROUP BY program",
+          "detail": null
+        },
+        {
+          "question": "What is the total donation amount for each region?",
+          "sql": "SELECT region, SUM(donation_amount) FROM donations GROUP BY region",
+          "detail": null
+        },
+        {
+          "question": "What's the average donation amount from donors in the US?",
+          "sql": "SELECT AVG(donation_amount) FROM donors WHERE country = 'USA'",
+          "detail": null
+        }
+      ]
+    },
+    {
+      "code": "DUP_CROSS_SOURCE",
+      "count": 2,
+      "pct": 0.0,
+      "examples": [
+        {
+          "question": "What is the average age of all artists?",
+          "sql": "SELECT AVG(Age) FROM artist",
+          "detail": null
+        },
+        {
+          "question": "What is the name of the most expensive product?",
+          "sql": "SELECT Product_Name FROM PRODUCTS ORDER BY Product_Price DESC LIMIT 1",
+          "detail": null
+        }
+      ]
+    },
+    {
+      "code": "DUP_CONFLICTING_LABEL",
+      "count": 1,
+      "pct": 0.0,
+      "examples": [
+        {
+          "question": "What is the sexual abuse rate where the conflict is the Burundi Civil War?",
+          "sql": "SELECT MAX(sexual_abuse_1) FROM table_15652027_1 WHERE conflict = \"Burundi Civil War\"",
+          "detail": null
+        }
+      ]
+    }
+  ],
+  "repair": {
+    "recovered": 6520,
+    "by_dialect": {
+      "mysql": 6216,
+      "postgres": 304
+    },
+    "top_rewritten_functions": [
+      [
+        "date_sub",
+        2644
+      ],
+      [
+        "year",
+        2200
+      ],
+      [
+        "curdate",
+        897
+      ],
+      [
+        "month",
+        513
+      ],
+      [
+        "date_format",
+        385
+      ],
+      [
+        "datediff",
+        334
+      ],
+      [
+        "now",
+        287
+      ],
+      [
+        "current_date",
+        109
+      ],
+      [
+        "current_timestamp",
+        54
+      ],
+      [
+        "date_add",
+        32
+      ]
+    ]
+  },
+  "split": {
+    "domains": {
+      "test_heldout": [
+        "archeology",
+        "charitable organizations",
+        "chemicals",
+        "construction",
+        "entertainment industry",
+        "fashion retail",
+        "fitness industry",
+        "rural health",
+        "sports",
+        "trade unions"
+      ],
+      "val": [
+        "arctic research",
+        "blockchain",
+        "manufacturing",
+        "oil and gas",
+        "public transportation"
+      ],
+      "train": [
+        "aerospace",
+        "agriculture",
+        "aquaculture",
+        "artificial intelligence",
+        "arts and culture",
+        "arts operations and management",
+        "automotive",
+        "beauty industry",
+        "biotechnology",
+        "cannabis industry",
+        "civil engineering",
+        "climate change",
+        "cosmetics",
+        "cultural preservation",
+        "cybersecurity",
+        "defense contractors",
+        "defense industry",
+        "defense operations",
+        "defense security",
+        "disability services",
+        "education",
+        "energy",
+        "ethical fashion",
+        "fashion",
+        "finance",
+        "financial services",
+        "fine arts",
+        "food industry",
+        "food services",
+        "forestry",
+        "gaming industry",
+        "gaming technology",
+        "government policy",
+        "government services",
+        "healthcare",
+        "higher education",
+        "hospitality",
+        "hospitality technology",
+        "human resources",
+        "humanitarian aid",
+        "insurance",
+        "journalism",
+        "justice",
+        "legal services",
+        "logistics",
+        "marine biology",
+        "maritime",
+        "media",
+        "mental health",
+        "mining industry",
+        "mining operations",
+        "museums",
+        "music",
+        "music industry",
+        "nonprofit",
+        "nonprofit operations",
+        "ocean shipping",
+        "oceanography",
+        "oceans",
+        "pharmaceuticals",
+        "philanthropy",
+        "precision agriculture",
+        "public health",
+        "public safety",
+        "rare earth elements",
+        "real estate",
+        "restaurant operations",
+        "retail",
+        "rural development",
+        "social impact investing",
+        "social media",
+        "space",
+        "space exploration",
+        "sports entertainment",
+        "startups",
+        "sustainable energy",
+        "sustainable infrastructure",
+        "technology",
+        "telecommunications",
+        "tourism",
+        "transportation",
+        "venture capital",
+        "waste management",
+        "water resources",
+        "wildlife conservation"
+      ]
+    },
+    "leakage_removed": 42
+  },
+  "distributions": {
+    "complexity_by_split": {
+      "train": {
+        "aggregation": 61824,
+        "window": 2234,
+        "single_join": 10882,
+        "basic": 62595,
+        "subquery": 4181,
+        "multi_join": 1841,
+        "set_op": 796
+      },
+      "val": {
+        "aggregation": 2073,
+        "basic": 674,
+        "single_join": 623,
+        "window": 137,
+        "multi_join": 52,
+        "subquery": 172,
+        "set_op": 26
+      },
+      "test_heldout": {
+        "single_join": 1145,
+        "aggregation": 4237,
+        "basic": 732,
+        "subquery": 463,
+        "window": 256,
+        "multi_join": 134,
+        "set_op": 57
+      }
+    },
+    "rows_per_domain": {
+      "aerospace": 802,
+      "agriculture": 802,
+      "aquaculture": 927,
+      "archeology": 444,
+      "arctic research": 569,
+      "artificial intelligence": 943,
+      "arts and culture": 804,
+      "arts operations and management": 760,
+      "automotive": 796,
+      "beauty industry": 692,
+      "biotechnology": 514,
+      "blockchain": 787,
+      "cannabis industry": 442,
+      "charitable organizations": 678,
+      "chemicals": 677,
+      "civil engineering": 1048,
+      "climate change": 957,
+      "construction": 832,
+      "cosmetics": 648,
+      "cultural preservation": 680,
+      "cybersecurity": 889,
+      "defense contractors": 689,
+      "defense industry": 768,
+      "defense operations": 816,
+      "defense security": 932,
+      "disability services": 608,
+      "education": 933,
+      "energy": 783,
+      "entertainment industry": 477,
+      "ethical fashion": 1143,
+      "fashion": 627,
+      "fashion retail": 730,
+      "finance": 818,
+      "financial services": 911,
+      "fine arts": 558,
+      "fitness industry": 727,
+      "food industry": 842,
+      "food services": 706,
+      "forestry": 701,
+      "gaming industry": 618,
+      "gaming technology": 945,
+      "government policy": 831,
+      "government services": 905,
+      "healthcare": 931,
+      "higher education": 923,
+      "hospitality": 1033,
+      "hospitality technology": 743,
+      "human resources": 837,
+      "humanitarian aid": 815,
+      "insurance": 677,
+      "journalism": 763,
+      "justice": 777,
+      "legal services": 785,
+      "logistics": 808,
+      "manufacturing": 805,
+      "marine biology": 887,
+      "maritime": 609,
+      "media": 735,
+      "mental health": 672,
+      "mining industry": 678,
+      "mining operations": 935,
+      "museums": 514,
+      "music": 588,
+      "music industry": 638,
+      "nonprofit": 709,
+      "nonprofit operations": 748,
+      "ocean shipping": 614,
+      "oceanography": 999,
+      "oceans": 822,
+      "oil and gas": 775,
+      "pharmaceuticals": 723,
+      "philanthropy": 519,
+      "precision agriculture": 514,
+      "public health": 1038,
+      "public safety": 811,
+      "public transportation": 821,
+      "rare earth elements": 670,
+      "real estate": 880,
+      "restaurant operations": 839,
+      "retail": 714,
+      "rural development": 1144,
+      "rural health": 762,
+      "social impact investing": 631,
+      "social media": 608,
+      "space": 945,
+      "space exploration": 789,
+      "sports": 878,
+      "sports entertainment": 785,
+      "startups": 560,
+      "sustainable energy": 853,
+      "sustainable infrastructure": 1028,
+      "technology": 802,
+      "telecommunications": 886,
+      "tourism": 900,
+      "trade unions": 819,
+      "transportation": 907,
+      "venture capital": 514,
+      "waste management": 1009,
+      "water resources": 992,
+      "wildlife conservation": 748
+    },
+    "train_token_histogram": {
+      "200-300": 2205,
+      "100-200": 4752,
+      "0-100": 436,
+      "300-500": 1979,
+      "500-800": 128
+    }
+  },
+  "eval": {
+    "gretel_heldout": {
+      "n": 500,
+      "by_class": {
+        "aggregation": 237,
+        "single_join": 70,
+        "multi_join": 27,
+        "basic": 60,
+        "subquery": 44,
+        "window": 36,
+        "set_op": 26
+      }
+    },
+    "gretel_val": {
+      "n": 300,
+      "by_class": {
+        "aggregation": 162,
+        "single_join": 43,
+        "basic": 64,
+        "subquery": 11,
+        "window": 13,
+        "multi_join": 4,
+        "set_op": 3
+      }
+    },
+    "chinook": {
+      "n": 100,
+      "by_class": {
+        "easy": 25,
+        "medium": 35,
+        "hard": 25,
+        "sqlite_specific": 15
+      }
+    }
+  },
+  "augment": {
+    "attempted": 3293,
+    "augmented": 3293,
+    "share_pct": 34.7,
+    "attempted_share_pct": 34.7
+  },
+  "mix": {
+    "train": 9500,
+    "val": 300,
+    "test_heldout": 500
+  },
+  "chinook_prompt_tokens": 1341,
+  "stages": [
+    {
+      "name": "ingest (map + validate + canonicalize)",
+      "n_in": 184428,
+      "n_out": 155520,
+      "seconds": 22.9
+    },
+    {
+      "name": "filters",
+      "n_in": 155520,
+      "n_out": 155179,
+      "seconds": 0.8
+    },
+    {
+      "name": "dedup",
+      "n_in": 155179,
+      "n_out": 155176,
+      "seconds": 0.9
+    },
+    {
+      "name": "split + leakage guard",
+      "n_in": 155176,
+      "n_out": 155134,
+      "seconds": 0.5
+    },
+    {
+      "name": "sample + augment",
+      "n_in": 9500,
+      "n_out": 9500,
+      "seconds": 1.5
+    }
+  ],
+  "incremental": {
+    "new": 184428,
+    "skipped": 0
+  }
+}

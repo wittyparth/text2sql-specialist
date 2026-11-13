@@ -16,7 +16,6 @@ etl = [
     "pyarrow>=16",
     "huggingface_hub>=0.24",
     "sqlglot>=25",
-    "datasets>=2.20",
     "tokenizers>=0.19",
 ]
 eval = ["httpx>=0.27", "numpy>=1.26", "matplotlib>=3.8"]

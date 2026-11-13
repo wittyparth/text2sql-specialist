@@ -49,5 +49,5 @@ Dialect errors (`YEAR()`, `DATE_SUB`, `NOW()`) are exactly the base model's weak
 
 ## Acceptance
 - [ ] Unit tests cover each drop reason with a fixture row, plus one repaired-MySQL fixture (`YEAR(d)` → `strftime('%Y', d)` or equivalent that executes).
-- [ ] The first test-split row (id 5097, ambiguous `GROUP BY salesperson_id`) ends up as `SQL_AMBIGUOUS`. **It's the README's headline example.**
+- [ ] Train-file row id 5097 (ambiguous `GROUP BY salesperson_id`) ends up as `SQL_AMBIGUOUS`. **It's the README's headline example.**
 - [ ] The stage runs over the full data in under 60 s on the M5.

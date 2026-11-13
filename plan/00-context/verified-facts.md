@@ -25,7 +25,7 @@ Top failure reasons (test split, 5,851 rows): `no such column` 293 · `no such f
 
 Pass rate by complexity (test split): basic 88% · aggregation 78% · single join 72% · window functions 71% · set operations 71% · multiple joins 71% · subqueries 64% · CTEs 0/19 (needs investigation in the validate stage; likely multi-statement or DML CTEs).
 
-Concrete bad row (first row of the test split, id 5097): `GROUP BY salesperson_id` after a join, which SQLite rejects as **ambiguous**. Use it as the README example.
+Concrete bad row (train file, id 5097): `GROUP BY salesperson_id` after a join, which SQLite rejects as **ambiguous**. Use it as the README example.
 
 Size: prompt + schema + SQL, raw characters p50 454 / p90 728 / p99 1,051 / max 2,295.
 With the **canonical schema format** (see decisions D4): p50 345 / p90 541 / p99 771 / max 1,002 characters, about 250 tokens at p99.
