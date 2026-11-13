@@ -182,6 +182,7 @@ def build_ui(s: Settings, presets: dict[str, Preset], backends: list[Backend], w
                 )
                 example = gr.Dropdown(
                     [e["question"] for e in presets[first].examples],
+                    value=None,  # otherwise Gradio pre-selects #1 and picking it fires no change
                     label="Example questions (these have a reference answer)",
                 )
                 question = gr.Textbox(label="Question", max_length=MAX_QUESTION)
@@ -212,8 +213,10 @@ def build_ui(s: Settings, presets: dict[str, Preset], backends: list[Backend], w
                     funnel_rows(), headers=["Stage", *rep.get("funnel", {})], interactive=False
                 )
                 codes = [d["code"] for d in rep.get("drop_reasons", [])]
-                pick = gr.Dropdown(codes, label="Why rows were dropped (browse real examples)")
-                shown = gr.Markdown()
+                pick = gr.Dropdown(
+                    codes, value=None, label="Why rows were dropped (browse real examples)"
+                )
+                shown = gr.Markdown("Pick a drop reason.")
                 pick.change(drop_examples, pick, shown)
             with gr.Tab("About"):
                 gr.Markdown((ROOT / "src/text2sql/app/about.md").read_text())

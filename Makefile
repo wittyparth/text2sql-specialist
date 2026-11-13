@@ -1,4 +1,4 @@
-.PHONY: eval eval-all report setup test lint pipeline pipeline-demo-incremental push-dataset eval app run up down
+.PHONY: ui-smoke eval eval-all report setup test lint pipeline pipeline-demo-incremental push-dataset eval app run up down
 
 setup:
 	uv sync --all-groups
@@ -42,3 +42,6 @@ up:
 
 down:
 	docker compose down
+
+ui-smoke:
+	uv run --with playwright python scripts/ui_smoke.py

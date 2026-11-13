@@ -1,0 +1,551 @@
+{
+  "runs": {
+    "base-q4/chinook": {
+      "dir": "20261113-042001_base-q4_chinook",
+      "summary": {
+        "n": 100,
+        "endpoint_errors": 0,
+        "ex": 0.6,
+        "ex_ci": [
+          0.5,
+          0.69
+        ],
+        "ex_strict": 0.57,
+        "valid_sql_rate": 0.76,
+        "dialect_error_rate": 0.0,
+        "schema_link_error_rate": 0.24,
+        "by_difficulty": {
+          "easy": {
+            "n": 25,
+            "ex": 0.92
+          },
+          "hard": {
+            "n": 25,
+            "ex": 0.36
+          },
+          "medium": {
+            "n": 35,
+            "ex": 0.5428571428571428
+          },
+          "sqlite_specific": {
+            "n": 15,
+            "ex": 0.6
+          }
+        },
+        "errors": {
+          "SCHEMA_LINK": 24,
+          "WRONG_PROJECTION": 1,
+          "WRONG_ROWCOUNT": 6,
+          "WRONG_VALUES": 9
+        },
+        "latency_p50_s": 0.46980183298001066,
+        "latency_p95_s": 0.9759745830087923,
+        "mean_completion_tokens": 43.16,
+        "wall_s": 47.2
+      }
+    },
+    "base-q4/gretel_heldout": {
+      "dir": "20261113-042356_base-q4_gretel_heldout",
+      "summary": {
+        "n": 500,
+        "endpoint_errors": 0,
+        "ex": 0.546,
+        "ex_ci": [
+          0.504,
+          0.59
+        ],
+        "ex_strict": 0.534,
+        "valid_sql_rate": 0.926,
+        "dialect_error_rate": 0.006,
+        "schema_link_error_rate": 0.06,
+        "by_difficulty": {
+          "aggregation": {
+            "n": 237,
+            "ex": 0.679324894514768
+          },
+          "basic": {
+            "n": 60,
+            "ex": 0.55
+          },
+          "multi_join": {
+            "n": 27,
+            "ex": 0.25925925925925924
+          },
+          "set_op": {
+            "n": 26,
+            "ex": 0.15384615384615385
+          },
+          "single_join": {
+            "n": 70,
+            "ex": 0.4857142857142857
+          },
+          "subquery": {
+            "n": 44,
+            "ex": 0.5
+          },
+          "window": {
+            "n": 36,
+            "ex": 0.3333333333333333
+          }
+        },
+        "errors": {
+          "DIALECT": 3,
+          "OTHER_ERROR": 4,
+          "SCHEMA_LINK": 30,
+          "WRONG_ORDER": 1,
+          "WRONG_PROJECTION": 88,
+          "WRONG_ROWCOUNT": 48,
+          "WRONG_VALUES": 53
+        },
+        "latency_p50_s": 0.34039825000218116,
+        "latency_p95_s": 0.9016147919755895,
+        "mean_completion_tokens": 29.956,
+        "wall_s": 210.8
+      }
+    },
+    "ft-q4/chinook": {
+      "dir": "20261113-055110_ft-q4_chinook",
+      "summary": {
+        "n": 100,
+        "endpoint_errors": 0,
+        "ex": 0.7,
+        "ex_ci": [
+          0.61,
+          0.79
+        ],
+        "ex_strict": 0.64,
+        "valid_sql_rate": 0.82,
+        "dialect_error_rate": 0.02,
+        "schema_link_error_rate": 0.07,
+        "by_difficulty": {
+          "easy": {
+            "n": 25,
+            "ex": 1.0
+          },
+          "hard": {
+            "n": 25,
+            "ex": 0.52
+          },
+          "medium": {
+            "n": 35,
+            "ex": 0.6857142857142857
+          },
+          "sqlite_specific": {
+            "n": 15,
+            "ex": 0.5333333333333333
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 6,
+          "DIALECT": 2,
+          "OTHER_ERROR": 2,
+          "SCHEMA_LINK": 7,
+          "SYNTAX": 1,
+          "WRONG_ROWCOUNT": 7,
+          "WRONG_VALUES": 5
+        },
+        "latency_p50_s": 0.4093306660070084,
+        "latency_p95_s": 1.011528790986631,
+        "mean_completion_tokens": 42.15,
+        "wall_s": 46.5
+      }
+    },
+    "ft-q4/gretel_heldout": {
+      "dir": "20261113-055456_ft-q4_gretel_heldout",
+      "summary": {
+        "n": 500,
+        "endpoint_errors": 0,
+        "ex": 0.624,
+        "ex_ci": [
+          0.582,
+          0.668
+        ],
+        "ex_strict": 0.616,
+        "valid_sql_rate": 0.966,
+        "dialect_error_rate": 0.0,
+        "schema_link_error_rate": 0.026,
+        "by_difficulty": {
+          "aggregation": {
+            "n": 237,
+            "ex": 0.7383966244725738
+          },
+          "basic": {
+            "n": 60,
+            "ex": 0.5833333333333334
+          },
+          "multi_join": {
+            "n": 27,
+            "ex": 0.48148148148148145
+          },
+          "set_op": {
+            "n": 26,
+            "ex": 0.46153846153846156
+          },
+          "single_join": {
+            "n": 70,
+            "ex": 0.6142857142857143
+          },
+          "subquery": {
+            "n": 44,
+            "ex": 0.5
+          },
+          "window": {
+            "n": 36,
+            "ex": 0.3333333333333333
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 1,
+          "OTHER_ERROR": 2,
+          "SCHEMA_LINK": 13,
+          "SYNTAX": 1,
+          "WRONG_ORDER": 1,
+          "WRONG_PROJECTION": 79,
+          "WRONG_ROWCOUNT": 39,
+          "WRONG_VALUES": 52
+        },
+        "latency_p50_s": 0.3841457079979591,
+        "latency_p95_s": 0.888794708007481,
+        "mean_completion_tokens": 31.1,
+        "wall_s": 224.9
+      }
+    },
+    "ft-q8/chinook": {
+      "dir": "20261113-061409_ft-q8_chinook",
+      "summary": {
+        "n": 100,
+        "endpoint_errors": 0,
+        "ex": 0.71,
+        "ex_ci": [
+          0.62,
+          0.8
+        ],
+        "ex_strict": 0.66,
+        "valid_sql_rate": 0.86,
+        "dialect_error_rate": 0.01,
+        "schema_link_error_rate": 0.07,
+        "by_difficulty": {
+          "easy": {
+            "n": 25,
+            "ex": 0.96
+          },
+          "hard": {
+            "n": 25,
+            "ex": 0.56
+          },
+          "medium": {
+            "n": 35,
+            "ex": 0.7428571428571429
+          },
+          "sqlite_specific": {
+            "n": 15,
+            "ex": 0.4666666666666667
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 6,
+          "DIALECT": 1,
+          "SCHEMA_LINK": 7,
+          "WRONG_ROWCOUNT": 10,
+          "WRONG_VALUES": 5
+        },
+        "latency_p50_s": 0.5553448749997187,
+        "latency_p95_s": 1.4040183750039432,
+        "mean_completion_tokens": 39.28,
+        "wall_s": 61.6
+      }
+    },
+    "ft-q8/gretel_heldout": {
+      "dir": "20261113-061923_ft-q8_gretel_heldout",
+      "summary": {
+        "n": 500,
+        "endpoint_errors": 0,
+        "ex": 0.64,
+        "ex_ci": [
+          0.598,
+          0.682
+        ],
+        "ex_strict": 0.63,
+        "valid_sql_rate": 0.964,
+        "dialect_error_rate": 0.0,
+        "schema_link_error_rate": 0.024,
+        "by_difficulty": {
+          "aggregation": {
+            "n": 237,
+            "ex": 0.759493670886076
+          },
+          "basic": {
+            "n": 60,
+            "ex": 0.5833333333333334
+          },
+          "multi_join": {
+            "n": 27,
+            "ex": 0.48148148148148145
+          },
+          "set_op": {
+            "n": 26,
+            "ex": 0.5769230769230769
+          },
+          "single_join": {
+            "n": 70,
+            "ex": 0.5714285714285714
+          },
+          "subquery": {
+            "n": 44,
+            "ex": 0.5454545454545454
+          },
+          "window": {
+            "n": 36,
+            "ex": 0.3611111111111111
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 2,
+          "OTHER_ERROR": 2,
+          "SCHEMA_LINK": 12,
+          "SYNTAX": 2,
+          "WRONG_ORDER": 2,
+          "WRONG_PROJECTION": 79,
+          "WRONG_ROWCOUNT": 33,
+          "WRONG_VALUES": 48
+        },
+        "latency_p50_s": 0.5482307500205934,
+        "latency_p95_s": 1.2288641250052024,
+        "mean_completion_tokens": 30.424,
+        "wall_s": 313.3
+      }
+    },
+    "ft-f16/chinook": {
+      "dir": "20261113-062947_ft-f16_chinook",
+      "summary": {
+        "n": 100,
+        "endpoint_errors": 0,
+        "ex": 0.71,
+        "ex_ci": [
+          0.62,
+          0.8
+        ],
+        "ex_strict": 0.66,
+        "valid_sql_rate": 0.86,
+        "dialect_error_rate": 0.01,
+        "schema_link_error_rate": 0.07,
+        "by_difficulty": {
+          "easy": {
+            "n": 25,
+            "ex": 0.96
+          },
+          "hard": {
+            "n": 25,
+            "ex": 0.56
+          },
+          "medium": {
+            "n": 35,
+            "ex": 0.7428571428571429
+          },
+          "sqlite_specific": {
+            "n": 15,
+            "ex": 0.4666666666666667
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 6,
+          "DIALECT": 1,
+          "SCHEMA_LINK": 7,
+          "WRONG_ROWCOUNT": 10,
+          "WRONG_VALUES": 5
+        },
+        "latency_p50_s": 0.9267418750096112,
+        "latency_p95_s": 2.4167880000022706,
+        "mean_completion_tokens": 39.43,
+        "wall_s": 104.1
+      }
+    },
+    "ft-f16/gretel_heldout": {
+      "dir": "20261113-063708_ft-f16_gretel_heldout",
+      "summary": {
+        "n": 500,
+        "endpoint_errors": 0,
+        "ex": 0.644,
+        "ex_ci": [
+          0.602,
+          0.686
+        ],
+        "ex_strict": 0.634,
+        "valid_sql_rate": 0.964,
+        "dialect_error_rate": 0.0,
+        "schema_link_error_rate": 0.024,
+        "by_difficulty": {
+          "aggregation": {
+            "n": 237,
+            "ex": 0.759493670886076
+          },
+          "basic": {
+            "n": 60,
+            "ex": 0.6
+          },
+          "multi_join": {
+            "n": 27,
+            "ex": 0.48148148148148145
+          },
+          "set_op": {
+            "n": 26,
+            "ex": 0.5769230769230769
+          },
+          "single_join": {
+            "n": 70,
+            "ex": 0.5857142857142857
+          },
+          "subquery": {
+            "n": 44,
+            "ex": 0.5454545454545454
+          },
+          "window": {
+            "n": 36,
+            "ex": 0.3611111111111111
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 2,
+          "OTHER_ERROR": 2,
+          "SCHEMA_LINK": 12,
+          "SYNTAX": 2,
+          "WRONG_ORDER": 2,
+          "WRONG_PROJECTION": 78,
+          "WRONG_ROWCOUNT": 32,
+          "WRONG_VALUES": 48
+        },
+        "latency_p50_s": 0.7841409160173498,
+        "latency_p95_s": 1.6847168749955017,
+        "mean_completion_tokens": 30.338,
+        "wall_s": 441.3
+      }
+    },
+    "base-f16/chinook": {
+      "dir": "20261113-064818_base-f16_chinook",
+      "summary": {
+        "n": 100,
+        "endpoint_errors": 0,
+        "ex": 0.57,
+        "ex_ci": [
+          0.47,
+          0.67
+        ],
+        "ex_strict": 0.55,
+        "valid_sql_rate": 0.71,
+        "dialect_error_rate": 0.0,
+        "schema_link_error_rate": 0.28,
+        "by_difficulty": {
+          "easy": {
+            "n": 25,
+            "ex": 0.92
+          },
+          "hard": {
+            "n": 25,
+            "ex": 0.36
+          },
+          "medium": {
+            "n": 35,
+            "ex": 0.45714285714285713
+          },
+          "sqlite_specific": {
+            "n": 15,
+            "ex": 0.6
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 1,
+          "SCHEMA_LINK": 28,
+          "WRONG_ROWCOUNT": 7,
+          "WRONG_VALUES": 7
+        },
+        "latency_p50_s": 1.1273547080054414,
+        "latency_p95_s": 2.823560249991715,
+        "mean_completion_tokens": 45.64,
+        "wall_s": 119.0
+      }
+    },
+    "base-f16/gretel_heldout": {
+      "dir": "20261113-065530_base-f16_gretel_heldout",
+      "summary": {
+        "n": 500,
+        "endpoint_errors": 0,
+        "ex": 0.544,
+        "ex_ci": [
+          0.502,
+          0.588
+        ],
+        "ex_strict": 0.532,
+        "valid_sql_rate": 0.912,
+        "dialect_error_rate": 0.006,
+        "schema_link_error_rate": 0.07,
+        "by_difficulty": {
+          "aggregation": {
+            "n": 237,
+            "ex": 0.6751054852320675
+          },
+          "basic": {
+            "n": 60,
+            "ex": 0.55
+          },
+          "multi_join": {
+            "n": 27,
+            "ex": 0.2962962962962963
+          },
+          "set_op": {
+            "n": 26,
+            "ex": 0.19230769230769232
+          },
+          "single_join": {
+            "n": 70,
+            "ex": 0.4714285714285714
+          },
+          "subquery": {
+            "n": 44,
+            "ex": 0.4772727272727273
+          },
+          "window": {
+            "n": 36,
+            "ex": 0.3333333333333333
+          }
+        },
+        "errors": {
+          "AMBIGUOUS": 1,
+          "DIALECT": 3,
+          "OTHER_ERROR": 3,
+          "SCHEMA_LINK": 35,
+          "SYNTAX": 2,
+          "WRONG_ORDER": 1,
+          "WRONG_PROJECTION": 83,
+          "WRONG_ROWCOUNT": 49,
+          "WRONG_VALUES": 51
+        },
+        "latency_p50_s": 0.721144709008513,
+        "latency_p95_s": 1.8704800420091487,
+        "mean_completion_tokens": 30.292,
+        "wall_s": 432.0
+      }
+    }
+  },
+  "paired": {
+    "gretel_heldout": {
+      "diff": 0.078,
+      "ci": [
+        0.038,
+        0.12
+      ],
+      "p": 0.0002063746741923057,
+      "base_only": 34,
+      "tuned_only": 73
+    },
+    "chinook": {
+      "diff": 0.1,
+      "ci": [
+        -0.01,
+        0.21
+      ],
+      "p": 0.09873714670538902,
+      "base_only": 10,
+      "tuned_only": 20
+    }
+  }
+}
