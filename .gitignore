@@ -13,3 +13,6 @@ runs/*
 !runs/.gitkeep
 wandb/
 .DS_Store
+
+# planning notes, kept local
+plan/

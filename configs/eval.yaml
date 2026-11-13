@@ -1,6 +1,6 @@
 generation: {temperature: 0, max_tokens: 256, seed: 0}
 # One request at a time. With 4 parallel slots llama-server flipped 5/100 greedy outputs
-# (see plan/00-context/verified-facts.md), so runs with different concurrency don't compare.
+# (about 5% of greedy outputs flipped when I measured it), so runs with different concurrency don't compare.
 parallel: 1
 timeout_s: 120
 

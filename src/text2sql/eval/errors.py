@@ -1,4 +1,4 @@
-"""Rule-based failure taxonomy for wrong predictions (see plan/04-evaluation/error-analysis.md)."""
+"""Rule-based failure taxonomy for wrong predictions."""
 
 from collections import Counter
 

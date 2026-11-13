@@ -120,7 +120,7 @@ QLoRA with Unsloth and TRL on a free Colab T4. The notebook that ran is committe
 
 ## Design decisions
 
-The long versions, with the evidence I used, are in [`plan/00-context/decisions.md`](plan/00-context/decisions.md). The short ones:
+The short versions:
 
 I picked Qwen2.5-Coder-1.5B over the newer small models because it is a plain dense model that trains with QLoRA on a T4 without surprises. The newer hybrid architectures gave me friction on that GPU and had weaker tooling.
 
@@ -138,7 +138,7 @@ Scope is SQLite, SELECT only, one turn. I'd rather measure that properly than cl
 
 ## What I would do next
 
-- **DPO with execution feedback.** Sample several queries per question, run them, and use "result matches" vs "does not" as the preference signal. Design in [`plan/03-training/next-steps-dpo.md`](plan/03-training/next-steps-dpo.md).
+- **DPO with execution feedback.** Sample several queries per question, run them, and use "result matches" vs "does not" as the preference signal.
 - **Harder, larger schemas** (BIRD, Spider) to target the subquery and window-function gaps this run did not move.
 - **MinHash near-duplicate removal** and **orchestration** (Dagster or Airflow) once the sources are scheduled rather than one-off.
 - **A GPU serving path** (vLLM) only if traffic ever needed it.

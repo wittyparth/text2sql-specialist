@@ -111,7 +111,7 @@ def _normalize(rows: list[tuple], ordered: bool):
 
 
 def results_match(pred: list[tuple], gold: list[tuple], ordered: bool = False) -> bool:
-    """Normalized execution match: see plan/04-evaluation/metrics.md for the rules."""
+    """Normalized execution match; the rules are listed under 'Evaluation method' in the README."""
     return _normalize(pred, ordered) == _normalize(gold, ordered)
 
 
