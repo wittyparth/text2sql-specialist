@@ -1,8 +1,8 @@
 {
   "header": {
-    "run_id": "0ae2cb88",
-    "generated_at": "2026-11-13T03:46:50+00:00",
-    "git_sha": "c6abd86",
+    "run_id": "e37b8914",
+    "generated_at": "2026-11-13T03:58:25+00:00",
+    "git_sha": "8f452d0",
     "python": "3.12.13",
     "sqlglot": "30.31.0",
     "pyarrow": "26.0.1",
@@ -14,29 +14,29 @@
     "chinook": "v1.4.5"
   },
   "files": {
-    "gretel/740ab236e64503fba51be1101df7a1be83bf455d/synthetic_text_to_sql_train.snappy.parquet": {
-      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
-      "sha256": "2bee9ac07cf5057d36b5ea30fb47d948697e882f42bd1cc661185396287c0180",
-      "bytes": 32363736,
-      "fetched_at": "2026-11-13T03:46:21+00:00"
+    "chinook/v1.4.5/Chinook_Sqlite.sqlite": {
+      "bytes": 1067008,
+      "fetched_at": "2026-11-13T03:46:23+00:00",
+      "revision": "v1.4.5",
+      "sha256": "bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a"
     },
     "gretel/740ab236e64503fba51be1101df7a1be83bf455d/synthetic_text_to_sql_test.snappy.parquet": {
-      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
-      "sha256": "f2056edcd897db59c89d12bde149a36d4e242ac0d2c6d4d42b1f2bc764318993",
       "bytes": 1901018,
-      "fetched_at": "2026-11-13T03:46:21+00:00"
+      "fetched_at": "2026-11-13T03:46:21+00:00",
+      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
+      "sha256": "f2056edcd897db59c89d12bde149a36d4e242ac0d2c6d4d42b1f2bc764318993"
+    },
+    "gretel/740ab236e64503fba51be1101df7a1be83bf455d/synthetic_text_to_sql_train.snappy.parquet": {
+      "bytes": 32363736,
+      "fetched_at": "2026-11-13T03:46:21+00:00",
+      "revision": "740ab236e64503fba51be1101df7a1be83bf455d",
+      "sha256": "2bee9ac07cf5057d36b5ea30fb47d948697e882f42bd1cc661185396287c0180"
     },
     "sqlcc/9d80a6a118b838d9defc3798d659a54a2ac2ff37/sql_create_context_v4.json": {
-      "revision": "9d80a6a118b838d9defc3798d659a54a2ac2ff37",
-      "sha256": "280961458ccb74731104ae9af715797a0332327a33a210120a6884085a5c03f0",
       "bytes": 21752418,
-      "fetched_at": "2026-11-13T03:46:22+00:00"
-    },
-    "chinook/v1.4.5/Chinook_Sqlite.sqlite": {
-      "revision": "v1.4.5",
-      "sha256": "bdf635be69850bd3be09c9a2dbeef7ddfb80036bd3ef3381383cd03b61e4a61a",
-      "bytes": 1067008,
-      "fetched_at": "2026-11-13T03:46:23+00:00"
+      "fetched_at": "2026-11-13T03:46:22+00:00",
+      "revision": "9d80a6a118b838d9defc3798d659a54a2ac2ff37",
+      "sha256": "280961458ccb74731104ae9af715797a0332327a33a210120a6884085a5c03f0"
     }
   },
   "funnel": {
@@ -508,30 +508,30 @@
     "complexity_by_split": {
       "train": {
         "aggregation": 61824,
-        "window": 2234,
-        "single_join": 10882,
         "basic": 62595,
+        "single_join": 10882,
         "subquery": 4181,
+        "window": 2234,
         "multi_join": 1841,
         "set_op": 796
       },
-      "val": {
-        "aggregation": 2073,
-        "basic": 674,
-        "single_join": 623,
-        "window": 137,
-        "multi_join": 52,
-        "subquery": 172,
-        "set_op": 26
-      },
       "test_heldout": {
+        "subquery": 463,
         "single_join": 1145,
         "aggregation": 4237,
-        "basic": 732,
-        "subquery": 463,
         "window": 256,
-        "multi_join": 134,
-        "set_op": 57
+        "set_op": 57,
+        "basic": 732,
+        "multi_join": 134
+      },
+      "val": {
+        "aggregation": 2073,
+        "single_join": 623,
+        "basic": 674,
+        "window": 137,
+        "subquery": 172,
+        "multi_join": 52,
+        "set_op": 26
       }
     },
     "rows_per_domain": {
@@ -637,8 +637,8 @@
       "wildlife conservation": 748
     },
     "train_token_histogram": {
-      "200-300": 2205,
       "100-200": 4752,
+      "200-300": 2205,
       "0-100": 436,
       "300-500": 1979,
       "500-800": 128
@@ -694,21 +694,21 @@
   "stages": [
     {
       "name": "ingest (map + validate + canonicalize)",
-      "n_in": 184428,
+      "n_in": 0,
       "n_out": 155520,
-      "seconds": 22.9
+      "seconds": 3.1
     },
     {
       "name": "filters",
       "n_in": 155520,
       "n_out": 155179,
-      "seconds": 0.8
+      "seconds": 0.7
     },
     {
       "name": "dedup",
       "n_in": 155179,
       "n_out": 155176,
-      "seconds": 0.9
+      "seconds": 1.0
     },
     {
       "name": "split + leakage guard",
@@ -724,7 +724,7 @@
     }
   ],
   "incremental": {
-    "new": 184428,
-    "skipped": 0
+    "new": 0,
+    "skipped": 184428
   }
 }

@@ -24,6 +24,7 @@ from .load import (
     recheck_rows,
     render_card,
     train_row,
+    val_row,
     write_frozen,
     write_records,
 )
@@ -135,7 +136,7 @@ def write_outputs(cfg: Config, built: dict, *, partial: bool, refreeze: bool) ->
     proc = cfg.paths.processed
     write_records(proc / "records.parquet", built["records"])
     atomic_write(proc / "train.jsonl", dumps_jsonl([train_row(r) for r in built["mix"]]))
-    atomic_write(proc / "val.jsonl", dumps_jsonl([train_row(r) for r in built["val"]]))
+    atomic_write(proc / "val.jsonl", dumps_jsonl([val_row(r) for r in built["val"]]))
     status = "skipped (partial run)"
     if not partial:
         text = dumps_jsonl([eval_row(r) for r in built["eval"]])

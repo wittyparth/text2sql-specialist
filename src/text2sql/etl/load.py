@@ -65,6 +65,17 @@ def train_row(rec: Record) -> dict:
     }
 
 
+def val_row(rec: Record) -> dict:
+    """Validation rows also carry what the notebook needs to execute predictions."""
+    row = train_row(rec)
+    row["meta"] |= {
+        "context_sqlite": rec.context_sqlite,
+        "gold_sql": rec.sql,
+        "order_matters": rec.order_matters,
+    }
+    return row
+
+
 def eval_row(rec: Record) -> dict:
     return {
         "id": rec.id,
@@ -117,7 +128,7 @@ def render_card(report: dict, repo_id: str) -> str:
     return f"""---
 license: apache-2.0
 language: [en]
-task_categories: [text2text-generation]
+task_categories: [text-generation]
 tags: [text-to-sql, sqlite, etl, execution-validated]
 configs:
 - config_name: train
