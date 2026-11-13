@@ -23,6 +23,8 @@ docker compose up          # CPU only, no keys, no GPU. Open http://localhost:78
 
 No Docker? `./run.sh` picks whatever it finds (Ollama, then llama.cpp, then Docker) and prints each choice. It starts the base model and my fine-tuned model side by side, so you can ask the same question to both.
 
+To share it without hosting: start it with `./run.sh`, wait for "Open http://localhost:7860" (the first run downloads about 2 GB of models, and until that finishes both answer columns say "Model unavailable"), then run `ngrok http 7860` in a second terminal and send the `https://...ngrok-free.dev` link. It is live only while your laptop is awake and both commands are running. Visitors see ngrok's one-click warning page first.
+
 The UI has four tabs:
 
 | Tab | What it does |
