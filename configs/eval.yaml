@@ -16,7 +16,7 @@ sets:
 
 models:
   base-q4:  {url: "http://127.0.0.1:8081/v1", model: base, gguf: "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF:Q4_K_M"}
-  base-f16: {url: "http://127.0.0.1:8081/v1", model: base, gguf: "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF:F16"}
+  base-f16: {url: "http://127.0.0.1:8081/v1", model: base, gguf: "unsloth/Qwen2.5-Coder-1.5B-Instruct-GGUF:F16"}
   ft-q4:    {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:Q4_K_M"}
   ft-q8:    {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:Q8_0"}
   ft-f16:   {url: "http://127.0.0.1:8082/v1", model: finetuned, gguf: "${HF_USER}/text2sql-qwen2.5-coder-1.5b-GGUF:F16"}

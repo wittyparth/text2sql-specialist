@@ -20,7 +20,7 @@ for m in $MODELS; do
     --port $PORT -c 8192 -np 1 -t 4 >"runs/server_$m.log" 2>&1 &
   pid=$!
   trap 'kill $pid 2>/dev/null || true' EXIT
-  for _ in $(seq 1 90); do curl -sf "localhost:$PORT/health" >/dev/null && break; sleep 2; done
+  for _ in $(seq 1 600); do curl -sf "localhost:$PORT/health" >/dev/null && break; sleep 2; done
   for s in chinook gretel_heldout; do
     uv run python -m text2sql.eval.run --model "$m" --set "$s" || true
   done
