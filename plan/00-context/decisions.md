@@ -88,3 +88,15 @@ Each decision records: **choice → why (with evidence) → what we rejected →
 
 ## D14. Package manager & runtime: `uv` + Python 3.12, `src/` layout, `pyproject.toml`
 - `uv.lock` gives fast, reproducible installs. The same lockfile is used in Docker.
+
+## D15. Implementation deviations from the stage specs (found while building T1, 2026-11-13)
+Each one has a test or a measurement behind it.
+- **Composite primary keys** are written as a table-level `PRIMARY KEY (a, b)`. Per-column `PRIMARY KEY` is invalid SQL for Chinook's `PlaylistTrack`, which broke the round-trip acceptance check. Chinook's canonical schema is now 3,386 characters (was 3,375), so every baseline measured with the prototype format has to be re-measured with the final harness (CLAUDE.md §4 already requires this).
+- **`YEAR()` / `MONTH()` / `DAY()` get an explicit AST rewrite** to `CAST(STRFTIME(...) AS INT)`. sqlglot's SQLite generator leaves them untouched and SQLite has no such functions, so plain `transpile` recovered none of them. The rewrite recovers about 2,200 `YEAR` rows in Gretel.
+- **`'-N WEEK'` date modifiers are rewritten to days.** SQLite doesn't know weeks and returns NULL without an error, so "it executed" was not proof the label was right (214 rows).
+- **Processed row keys come from `data/interim/validated.parquet`, not from the manifest.** That table is written before the manifest, so the two can never disagree after a crash. The manifest keeps file fingerprints and run history.
+- **Sampling happens before augmentation** (spec order was augment → sample). Same distribution, about 3.3k augmentations instead of about 20k. Augmented rows replace their originals in `records.parquet`.
+- **A row whose augmentation fails re-execution is kept un-augmented** (and counted as `AUG_FAILED` in the report) instead of being dropped. No training data is lost for a harmless reason.
+- **Leakage guard compares lowercase-and-collapsed SQL text**, not the sqlglot-normalized form: it's cheap, and only identical text can leak. It removed 42 rows.
+- **The ambiguous-`GROUP BY` headline row is `gretel:train:5097`**, not a test-split row as `verified-facts.md` first said.
+- `schema.load_context` stays plain (`executescript`). The dialect pre-clean and transpile fallback live in `etl/validate.py`, because only the ETL needs sqlglot and the app image doesn't ship it.
