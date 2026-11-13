@@ -1,0 +1,33 @@
+CREATE TABLE Album (AlbumId INTEGER PRIMARY KEY, Title NVARCHAR(160), ArtistId INTEGER REFERENCES Artist(ArtistId));
+-- 1, For Those About To Rock We Sal, 1
+-- 2, Balls to the Wall, 2
+CREATE TABLE Artist (ArtistId INTEGER PRIMARY KEY, Name NVARCHAR(120));
+-- 1, AC/DC
+-- 2, Accept
+CREATE TABLE Customer (CustomerId INTEGER PRIMARY KEY, FirstName NVARCHAR(40), LastName NVARCHAR(20), Company NVARCHAR(80), Address NVARCHAR(70), City NVARCHAR(40), State NVARCHAR(40), Country NVARCHAR(40), PostalCode NVARCHAR(10), Phone NVARCHAR(24), Fax NVARCHAR(24), Email NVARCHAR(60), SupportRepId INTEGER REFERENCES Employee(EmployeeId));
+-- 1, Luís, Gonçalves, Embraer - Empresa Brasileira d, Av. Brigadeiro Faria Lima, 217, São José dos Campos, SP, Brazil, 12227-000, +55 (12) 3923-5555, +55 (12) 3923-5566, luisg@embraer.com.br, 3
+-- 2, Leonie, Köhler, NULL, Theodor-Heuss-Straße 34, Stuttgart, NULL, Germany, 70174, +49 0711 2842222, NULL, leonekohler@surfeu.de, 5
+CREATE TABLE Employee (EmployeeId INTEGER PRIMARY KEY, LastName NVARCHAR(20), FirstName NVARCHAR(20), Title NVARCHAR(30), ReportsTo INTEGER REFERENCES Employee(EmployeeId), BirthDate DATETIME, HireDate DATETIME, Address NVARCHAR(70), City NVARCHAR(40), State NVARCHAR(40), Country NVARCHAR(40), PostalCode NVARCHAR(10), Phone NVARCHAR(24), Fax NVARCHAR(24), Email NVARCHAR(60));
+-- 1, Adams, Andrew, General Manager, NULL, 1962-02-18 00:00:00, 2002-08-14 00:00:00, 11120 Jasper Ave NW, Edmonton, AB, Canada, T5K 2N1, +1 (780) 428-9482, +1 (780) 428-3457, andrew@chinookcorp.com
+-- 2, Edwards, Nancy, Sales Manager, 1, 1958-12-08 00:00:00, 2002-05-01 00:00:00, 825 8 Ave SW, Calgary, AB, Canada, T2P 2T3, +1 (403) 262-3443, +1 (403) 262-3322, nancy@chinookcorp.com
+CREATE TABLE Genre (GenreId INTEGER PRIMARY KEY, Name NVARCHAR(120));
+-- 1, Rock
+-- 2, Jazz
+CREATE TABLE Invoice (InvoiceId INTEGER PRIMARY KEY, CustomerId INTEGER REFERENCES Customer(CustomerId), InvoiceDate DATETIME, BillingAddress NVARCHAR(70), BillingCity NVARCHAR(40), BillingState NVARCHAR(40), BillingCountry NVARCHAR(40), BillingPostalCode NVARCHAR(10), Total NUMERIC(10,2));
+-- 1, 2, 2009-01-01 00:00:00, Theodor-Heuss-Straße 34, Stuttgart, NULL, Germany, 70174, 1.98
+-- 2, 4, 2009-01-02 00:00:00, Ullevålsveien 14, Oslo, NULL, Norway, 0171, 3.96
+CREATE TABLE InvoiceLine (InvoiceLineId INTEGER PRIMARY KEY, InvoiceId INTEGER REFERENCES Invoice(InvoiceId), TrackId INTEGER REFERENCES Track(TrackId), UnitPrice NUMERIC(10,2), Quantity INTEGER);
+-- 1, 1, 2, 0.99, 1
+-- 2, 1, 4, 0.99, 1
+CREATE TABLE MediaType (MediaTypeId INTEGER PRIMARY KEY, Name NVARCHAR(120));
+-- 1, MPEG audio file
+-- 2, Protected AAC audio file
+CREATE TABLE Playlist (PlaylistId INTEGER PRIMARY KEY, Name NVARCHAR(120));
+-- 1, Music
+-- 2, Movies
+CREATE TABLE PlaylistTrack (PlaylistId INTEGER REFERENCES Playlist(PlaylistId), TrackId INTEGER REFERENCES Track(TrackId), PRIMARY KEY (PlaylistId, TrackId));
+-- 1, 3402
+-- 1, 3389
+CREATE TABLE Track (TrackId INTEGER PRIMARY KEY, Name NVARCHAR(200), AlbumId INTEGER REFERENCES Album(AlbumId), MediaTypeId INTEGER REFERENCES MediaType(MediaTypeId), GenreId INTEGER REFERENCES Genre(GenreId), Composer NVARCHAR(220), Milliseconds INTEGER, Bytes INTEGER, UnitPrice NUMERIC(10,2));
+-- 1, For Those About To Rock (We Sa, 1, 1, 1, Angus Young, Malcolm Young, Br, 343719, 11170334, 0.99
+-- 2, Balls to the Wall, 2, 2, 1, NULL, 342562, 5510424, 0.99
